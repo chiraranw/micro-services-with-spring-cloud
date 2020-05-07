@@ -76,39 +76,36 @@ This end-point gives a list of all `Book`'s read by a `Student`.
         return reading;
 
     }
+This end-point is one that bundles all the functions of this project together, hiting it causes multiple process and threads to be initiated. First. it is supposed to fetch `Member`s details from the `ms-members-service` -__end-point M.1__. Upon a successful response, a `Member` has has been returned, the application goes on to fetch the `Book`s that the `Member` read. This requires firing a __GET__ request to the `ms-book-service` - __end-point B.1__. All the results are bundled into a `Reading` object and returned to the caller.
 
-This end-point is one that bundles all the functions of this project together, hiting it causes multiple process and threads to be initiated. First. it is supposed to fetch `Member`s details from the "ms-members-service" - end-point "M.1". Upon a uccessful response, a "Member" has has been returned, the application goes on to fetch the "Book"s that the "Member" read. This requires firing a "GET" request to the "ms-book-service" - end-point "B.1". All the results are bundled into a "Reading" object and returned to the caller.
+The `ms-members-service` is called by following method using a __WebClient API__.
 
+	public Member getMb(Integer mbId) {
+	  return this.client
+			.build()
+			.get()
+			.uri("http://ms-members-service/lib/v1/mb/" + mbId)
+			.retrieve()
+			.bodyToMono(Member.class)
+			.block();
+	    }
 
-   The "ms-members-service" is called by following method using a WebClient API.
-
-   	    public Member getMb(Integer mbId) {
-        return this.client
-                .build()
-                .get()
-                .uri("http://ms-members-service/lib/v1/mb/" + mbId)
-                .retrieve()
-                .bodyToMono(Member.class)
-                .block();
-    }
-
-    The "ms-book-service" is called by following method using a WebClient API.
+The `ms-book-service` is called by following method using a __WebClient API__.
 
     	public List<Book> getBksReadByMb(Integer mbId) {
-        return this.client
+          return this.client
                 .build()
                 .get()
                 .uri("http://ms-books-service/lib/v1/bk/readby/" + mbId)
                 .retrieve()
                 .bodyToFlux(Book.class).toStream().collect(Collectors.toList());
-    }
+         }
+
+As can be seen, in both cases, we are using _service-ids/application_ names to call the services. Even if we change the IP and Ports of these services, as long as they register themselves with Eureka, we will be able to find them in the registry by calling their __service-ids__.
 
 
-    As can be seen, in both cases, we are using service-ids/application names to call the services. Even if we change the IP and Ports of these services, as long as they register themselves with Eureka, we will be able to find them in the registry by calling their service-ids.
-
-
- Load Balacing
- Circuit Breaking
+ ## Load Balacing
+ ## Circuit Breaking
 
 
 
