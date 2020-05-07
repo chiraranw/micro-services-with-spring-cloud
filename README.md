@@ -8,10 +8,10 @@ This application is a Spring Boot application that demonstarate how to develop M
 
 The project consists of 4 applications/services, each a Spring Boot application.When the services are running, we will be able to see `Boook`s read by a `Student`, this operation is controlled and made possible by all the four services. Below I have listed the services and their functions.
 
-- 1. ms-discovery-server - Eureka (Netflix Service Discovery Server)
-- 2. ms-library - the REST API that is recieving Request from the fron-end application
-- 3. ms-book-service - Handles all `Book`s Request
-- 4. ms-members-services - Handles all `Memember`s Request
+- ms-discovery-server - Eureka (Netflix Service Discovery Server)
+- ms-library - the REST API that is recieving Request from the fron-end application
+- ms-book-service - Handles all `Book`s Request
+- ms-members-services - Handles all `Memember`s Request
 
 
 # Configurations
@@ -93,7 +93,7 @@ The `ms-members-service` is called by following method using a __WebClient API__
 The `ms-book-service` is called by following method using a __WebClient API__.
 
     	public List<Book> getBksReadByMb(Integer mbId) {
-          return this.client
+             return this.client
                 .build()
                 .get()
                 .uri("http://ms-books-service/lib/v1/bk/readby/" + mbId)
