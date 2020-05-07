@@ -17,18 +17,15 @@ The project consists of 4 applications/services, each a Spring Boot application.
 # Configurations
 
 ### Eureka Server(ms-discovery-server)
-To include Eureka, Netflix Service Discovery Server, in the classpath of my Discovery Server, I have included the "spring-cloud-starter-netflix-eureka-server" dependecny in my "pom" file and annotated the main class of this service with "@EnableEurekaServer". The "@EnableEurekaServer" instructs the Spring Boot application to act as Eureka Server and sets up the registry for us. For this Server to be located by other services, we have to confirgure "eureka.client.serviceUrl.defaultZone=http://localhost:9000/eureka/".
+To include Eureka, Netflix Service Discovery Server, in the classpath of my Discovery Server, I have included the `spring-cloud-starter-netflix-eureka-server` dependecny in my `pom.xml` file and annotated the main class of this service with __@EnableEurekaServe__. The __@EnableEurekaServe__ instructs the Spring Boot application to act as Eureka Server and sets up the registry for us. For this Server to be located by other services, we have to confirgure `eureka.client.serviceUrl.defaultZone=http://localhost:9000/eureka/`
 
+### Other Services
+The other services will register themselves with the Eureka Server, and for that to happen I included the `spring-cloud-starter-netflix-eureka-client` in the class path. This dependency allows us to pull the __@EnableEurekaClient__ to the main class of each services. This annotation turns the Spring Boot application into a __Eureka Instance__ (this means that it can regsiter itself with Eureka) and __Eureka Cleint__ (this means that it can query the registry for other services). The following properties are important:
 
-	Other Services
-	==============
-	The other services will register themselves with the Eureka Server, and for that to happen I included the "spring-cloud-starter-netflix-eureka-client" in the class path. This dependency allows us to pull the "@EnableEurekaClient" to the main class of each services. This annotation turns the Spring Boot application into a "Eureka Instance" (this means that it can regsiter itself with Eureka) and "Eureka Cleint" (this means that it can query the registry for other services). The following properties are important:
+	- 1. eureka.client.serviceUrl.defaultZone=http://localhost:9000/eureka/
+	- 2. spring.application.name=ms-books-service
 
-
-	1. eureka.client.serviceUrl.defaultZone=http://localhost:9000/eureka/
-	2. spring.application.name=ms-books-service
-
-	The first one tell the service where Eureka is located so that it can register itself. The second one bears the name(the service id) of the services. This name is important, it is the one that will be kept in the registry by Eureka and used by other services to locate it. For example to "GET" a "Book" by it's "ID" from the "ms-book-service" application, the URL becomes
+The first one tell the service where Eureka is located so that it can register itself. The second one bears the name(the service id) of the services. This name is important, it is the one that will be kept in the registry by Eureka and used by other services to locate it. For example to "GET" a "Book" by it's "ID" from the "ms-book-service" application, the URL becomes
 	"http://ms-books-service/book-id". The beauty of service discovery is that we do not need to hard-code the "IP" and "Port" of the "ms-books-service", rahter, wwe use the "service id", and tha is all.
 
 
