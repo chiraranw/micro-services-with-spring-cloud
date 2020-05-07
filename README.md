@@ -6,19 +6,18 @@ This application is a Spring Boot application that demonstarate how to develop M
 - Eureka - for service discovery
 - Hystrix - for Circuit Breaking
 
-The project consists of 4 applications/services, each a Spring Boot application.When the services are running, we will be able to see "Book"s read by a ""Student, this operation is controlled and made possible by all the four services. Below I have listed the services and their functions
+The project consists of 4 applications/services, each a Spring Boot application.When the services are running, we will be able to see `Boook`s read by a `Student`, this operation is controlled and made possible by all the four services. Below I have listed the services and their functions.
 
--1. ms-discovery-server - Eureka (Netflix Service Discovery Server)
--2. ms-library - the REST API that is recieving Request from the fron-end application
--3. ms-book-service - Handles all Books Request
--4. ms-members-services - Handles all Memembers Request
+- 1. ms-discovery-server - Eureka (Netflix Service Discovery Server)
+- 2. ms-library - the REST API that is recieving Request from the fron-end application
+- 3. ms-book-service - Handles all `Book`s Request
+- 4. ms-members-services - Handles all `Memember`s Request
 
 
-Configurations
+# Configurations
 
-	Eureka Server(ms-discovery-server)
-	==================================
-	To include Eureka, Netflix Service Discovery Server, in the classpath of my Discovery Server, I have included the "spring-cloud-starter-netflix-eureka-server" dependecny in my "pom" file and annotated the main class of this service with "@EnableEurekaServer". The "@EnableEurekaServer" instructs the Spring Boot application to act as Eureka Server and sets up the registry for us. For this Server to be located by other services, we have to confirgure "eureka.client.serviceUrl.defaultZone=http://localhost:9000/eureka/".
+### Eureka Server(ms-discovery-server)
+To include Eureka, Netflix Service Discovery Server, in the classpath of my Discovery Server, I have included the "spring-cloud-starter-netflix-eureka-server" dependecny in my "pom" file and annotated the main class of this service with "@EnableEurekaServer". The "@EnableEurekaServer" instructs the Spring Boot application to act as Eureka Server and sets up the registry for us. For this Server to be located by other services, we have to confirgure "eureka.client.serviceUrl.defaultZone=http://localhost:9000/eureka/".
 
 
 	Other Services
