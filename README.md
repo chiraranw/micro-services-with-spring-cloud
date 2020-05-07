@@ -32,20 +32,22 @@ For the purpose of demonstrating the architecture of micro-services & the Spring
 
 #### Books Service
 ##### B.1 Retrieve books read by a particlular Student
-
-	@RequestMapping(value = "/readby/{mbId}", method = RequestMethod.GET)
-	  public List<Book> getBkReadByMb(@PathVariable("mbId") Integer mbId) {
-	  return  this.bookService.getBksReadByMb(mbId);
-	}
+````java
+@RequestMapping(value = "/readby/{mbId}", method = RequestMethod.GET)
+  public List<Book> getBkReadByMb(@PathVariable("mbId") Integer mbId) {
+  return  this.bookService.getBksReadByMb(mbId);
+}
+````
 		
 This end-point gives a list of all `Book`'s read by a `Student`.
 
 ##### B.2 Get a "Book"'s details
-
-	@RequestMapping(value = "/{bkId}", method = RequestMethod.GET)
-	  public Optional<Book> getBk(@PathVariable("bkId") Integer bkId) {
-	 return this.bookService.getBk(bkId);
-	}
+````java
+@RequestMapping(value = "/{bkId}", method = RequestMethod.GET)
+  public Optional<Book> getBk(@PathVariable("bkId") Integer bkId) {
+  return this.bookService.getBk(bkId);
+}
+````
 
 #### Members Service
 
