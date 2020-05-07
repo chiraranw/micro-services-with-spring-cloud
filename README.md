@@ -11,7 +11,7 @@ The project consists of 4 applications/services, each a Spring Boot application.
 - ms-discovery-server - Eureka (Netflix Service Discovery Server)
 - ms-library - the REST API that is recieving Request from the fron-end application
 - ms-book-service - Handles all `Book`s Request
-- ms-members-services - Handles all `Memember`s Request
+- ms-members-services - Handles all `Member`s Request
 
 
 # Configurations
@@ -42,7 +42,7 @@ For the purpose of demonstrating the architecture of micro-services & the Spring
 		
 This end-point gives a list of all `Book`'s read by a `Student`.
 
-##### B.2 Get a "Book"'s details
+##### B.2 Get a Book's details
 ````java
 @RequestMapping(value = "/{bkId}", method = RequestMethod.GET)
   public Optional<Book> getBk(@PathVariable("bkId") Integer bkId) {
@@ -52,7 +52,7 @@ This end-point gives a list of all `Book`'s read by a `Student`.
 
 #### Members Service
 
-##### M.1 Get a "Member"'s details
+##### M.1 Get a Member's details
 ````java
 @RequestMapping(value = "/{mbId}", method = RequestMethod.GET)
   public Member getMb(@PathVariable("mbId") Integer mbId) {
