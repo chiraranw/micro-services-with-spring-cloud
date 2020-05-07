@@ -22,50 +22,44 @@ To include Eureka, Netflix Service Discovery Server, in the classpath of my Disc
 ### Other Services
 The other services will register themselves with the Eureka Server, and for that to happen I included the `spring-cloud-starter-netflix-eureka-client` in the class path. This dependency allows us to pull the __@EnableEurekaClient__ to the main class of each services. This annotation turns the Spring Boot application into a __Eureka Instance__ (this means that it can regsiter itself with Eureka) and __Eureka Cleint__ (this means that it can query the registry for other services). The following properties are important:
 
-	- 1. eureka.client.serviceUrl.defaultZone=http://localhost:9000/eureka/
-	- 2. spring.application.name=ms-books-service
+	 1. eureka.client.serviceUrl.defaultZone=http://localhost:9000/eureka/
+	 2. spring.application.name=ms-books-service
 
-The first one tell the service where Eureka is located so that it can register itself. The second one bears the name(the service id) of the services. This name is important, it is the one that will be kept in the registry by Eureka and used by other services to locate it. For example to "GET" a "Book" by it's "ID" from the "ms-book-service" application, the URL becomes
-	"http://ms-books-service/book-id". The beauty of service discovery is that we do not need to hard-code the "IP" and "Port" of the "ms-books-service", rahter, wwe use the "service id", and tha is all.
+The first one tell the service where Eureka is located so that it can register itself. The second one bears the name(the service id) of the services. This name is important, it is the one that will be kept in the registry by Eureka and used by other services to locate it. For example to "GET" a "Book" by it's "ID" from the "ms-book-service" application, the URL becomes `http://ms-books-service/book-id`. The beauty of service discovery is that we do not need to hard-code the __IP__ and __Port__ of the `ms-books-service`, rahter, wwe use the __service id__, and tha is all!
 
+# The REST API
+For the purpose of demonstrating the architecture of micro-services & the Spring Cloud components, this project has `GET` end-points. I will discuss the important ones below.
 
-The REST API
-===============
-For the purpose of demonstrating the architecture of micro-services & the Spring Cloud components, this project has "GET" end-points. I will discuss the important ones below.
+#### Books Service
+##### B.1 Retrieve books read by a particlular Student
 
-Books Service
-==============
+	@RequestMapping(value = "/readby/{mbId}", method = RequestMethod.GET)
+	  public List<Book> getBkReadByMb(@PathVariable("mbId") Integer mbId) {
+	  return  this.bookService.getBksReadByMb(mbId);
+	}
+		
+This end-point gives a list of all `Book`'s read by a `Student`.
 
-B.1 Retrieve books read by a particlular Student
+##### B.2 Get a "Book"'s details
 
-	    @RequestMapping(value = "/readby/{mbId}", method = RequestMethod.GET)
-    		public List<Book> getBkReadByMb(@PathVariable("mbId") Integer mbId) {
-        return  this.bookService.getBksReadByMb(mbId);
-    }
+	@RequestMapping(value = "/{bkId}", method = RequestMethod.GET)
+	  public Optional<Book> getBk(@PathVariable("bkId") Integer bkId) {
+	 return this.bookService.getBk(bkId);
+	}
 
-    This end-point gives a list of all "Book"s read by a "Student"
+#### Members Service
 
- B.2 Get a "Book"'s details
- 		    @RequestMapping(value = "/{bkId}", method = RequestMethod.GET)
-    public Optional<Book> getBk(@PathVariable("bkId") Integer bkId) {
-        return this.bookService.getBk(bkId);
-    }
+##### M.1 Get a "Member"'s details
 
-Members Service
-================
-
-M.1 Get a "Member"'s details
-
-	    @RequestMapping(value = "/{mbId}", method = RequestMethod.GET)
-    public Member getMb(@PathVariable("mbId") Integer mbId) {
-        return memberService.getMb(mbId);
-    }
+	@RequestMapping(value = "/{mbId}", method = RequestMethod.GET)
+	  public Member getMb(@PathVariable("mbId") Integer mbId) {
+	  return memberService.getMb(mbId);
+	}
 
 
-Library Service
-===============
+#### Library Service
 
-L.1 Retrieve History
+##### L.1 Retrieve History
 
     @RequestMapping(value = "/mb/history/{mbId}", method = RequestMethod.GET)
     Reading getBksReadByMb(@PathVariable("mbId") Integer mbId) {
@@ -83,8 +77,8 @@ L.1 Retrieve History
 
     }
 
+This end-point is one that bundles all the functions of this project together, hiting it causes multiple process and threads to be initiated. First. it is supposed to fetch `Member`s details from the "ms-members-service" - end-point "M.1". Upon a uccessful response, a "Member" has has been returned, the application goes on to fetch the "Book"s that the "Member" read. This requires firing a "GET" request to the "ms-book-service" - end-point "B.1". All the results are bundled into a "Reading" object and returned to the caller.
 
-   This end-point is one that bundles all the functions of this project together, hiting it causes multiple process and threads to be initiated. First. it is supposed to fetch "Member"`s details from the "ms-members-service" - end-point "M.1". Upon a successful response, a "Member" has has been returned, the application goes on to fetch the "Book"s that the "Member" read. This requires firing a "GET" request to the "ms-book-service" - end-point "B.1". All the results are bundled into a "Reading" object and returned to the caller.
 
    The "ms-members-service" is called by following method using a WebClient API.
 
