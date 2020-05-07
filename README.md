@@ -26,7 +26,7 @@ The other services will register themselves with the Eureka Server, and for that
  2. spring.application.name=ms-books-service
 ````
 
-The first one tell the service where Eureka is located so that it can register itself. The second one bears the name(the service id) of the services. This name is important, it is the one that will be kept in the registry by Eureka and used by other services to locate it. For example to "GET" a "Book" by it's "ID" from the "ms-book-service" application, the URL becomes `http://ms-books-service/book-id`. The beauty of service discovery is that we do not need to hard-code the __IP__ and __Port__ of the `ms-books-service`, rahter, wwe use the __service id__, and tha is all!
+The first one tell the service where Eureka is located so that it can register itself. The second one bears the name(the service id) of the services. This name is important, it is the one that will be kept in the registry by Eureka and used by other services to locate it. For example to __GET__ a `Book` by it's __ID__ from the `ms-book-service` application, the URL becomes `http://ms-books-service/book-id`. The beauty of service discovery is that we do not need to hard-code the __IP__ and __Port__ of the `ms-books-service`, rahter, wwe use the __service id__, and tha is all!
 
 # The REST API
 For the purpose of demonstrating the architecture of micro-services & the Spring Cloud components, this project has `GET` end-points. I will discuss the important ones below.
