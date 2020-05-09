@@ -109,6 +109,16 @@ As can be seen, in both cases, we are using _service-ids/application_ names to c
 
 
  ## Load Balacing
+Now it's time to enable __Load Balancing__ on our services. The idea is simple: let's suppose that there many request going towards the service - __ms-book-service__. Having one instance of this service may prove inefficient. Hence, one of better solutions would be to have multiple instances of __ms-book-service__. __But how does Spring Cloud know which instance to invoke in the event pf a request? How does Spring Cloud know how to evenly distribute these request between the multiple instances?__ This sounds complicated, however, Spring Cloud has done much of the work for us. Cheers to the Spring Cloud Team! We only need to use a marker annotation `@LoadBalanced` on our __WebClient instance__ - this tells Spring that it should interact with the instances of the services through `RibbonLoadBalancerClient`. Here, the Load Balancer will use `org.springframework.cloud.loadbalancer.core.RoundRobinLoadBalancer` to distribute load between the instances. In this project, this has been configured as shown below:
+````java
+@LoadBalanced
+@Bean
+WebClient.Builder getWebClient() {
+	return WebClient.builder();
+}
+````
+This will be _fine_ for much of our configurations, however, there is room to override these default settings.
+
  ## Circuit Breaking
 
 
