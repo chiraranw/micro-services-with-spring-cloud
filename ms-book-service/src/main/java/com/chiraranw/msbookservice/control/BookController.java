@@ -26,7 +26,7 @@ public class BookController {
 
     @RequestMapping(value = "/readby/{mbId}", method = RequestMethod.GET)
     public List<Book> getBkReadByMb(@PathVariable("mbId") Integer mbId) {
-        return  this.bookService.getBksReadByMb(mbId);
+        return this.bookService.getBksReadByMb(mbId);
     }
 
 

@@ -17,7 +17,7 @@ import java.util.Optional;
 public class LibraryController {
 
     private final LibraryMemberService libraryMemberService;
-    private  final LibraryBookService libraryBookService;
+    private final LibraryBookService libraryBookService;
 
     @Autowired
     public LibraryController(LibraryMemberService libraryMemberService, LibraryBookService libraryBookService) {
@@ -30,10 +30,10 @@ public class LibraryController {
     Reading getBksReadByMb(@PathVariable("mbId") Integer mbId) {
         //1. Get member details
         //2. Get Books that the member read
-        Reading reading=new Reading();
+        Reading reading = new Reading();
 
         Optional<Member> optionalMember = Optional.ofNullable(this.libraryMemberService.getMb(mbId));
-        optionalMember.ifPresent((res)->{
+        optionalMember.ifPresent((res) -> {
             reading.setMember(optionalMember.get());
             reading.setBks(this.libraryBookService.getBksReadByMb(mbId));
         });
